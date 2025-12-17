@@ -39,7 +39,7 @@ class CheckoutSolution:
     def getPrice(self, sku):
         return self.prices[sku].Price if sku in self.prices else None
 
-    def checkSpecialOffer(self, sku, count):
+    def checkMultiOffer(self, sku, count):
         offer = self.prices[sku].SpecialOffer
         if offer and count >= offer.Quantity:
             num_offers = count // offer.Quantity
@@ -48,6 +48,19 @@ class CheckoutSolution:
             return int(total_price)
         else:
             return int(count * self.prices[sku].Price)
+    
+    def checkBuyXGetYFreeOffer(self, skus, sku):
+        offer = self.prices[sku].BuyXGetYFreeOffer
+        if offer:
+            item_to_buy = offer.ItemToBuy
+            item_free = offer.ItemFree
+            x = offer.X
+            y = offer.Y
+
+            num_eligible_offers = skus.count(item_to_buy) // x
+            num_free_items = num_eligible_offers * y
+
+        return num_free_items 
 
     # skus = unicode string
     def checkout(self, skus):
@@ -60,6 +73,7 @@ class CheckoutSolution:
                 return -1
             else:
                 count = skus.count(sku)
-                total += int(self.checkSpecialOffer(sku, count))
+                total += int(self.checkMultiOffer(sku, count))
 
         return int(total)
+
