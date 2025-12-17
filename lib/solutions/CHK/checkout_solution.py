@@ -39,8 +39,7 @@ class CheckoutSolution:
     def getPrice(self, sku):
         return self.prices[sku].Price if sku in self.prices else None
 
-    def checkMultiOffer(self, sku, count):
-        offer = self.prices[sku].SpecialOffer
+    def checkMultiOffer(self, sku, count, offer):
         if offer and count >= offer.Quantity:
             num_offers = count // offer.Quantity
             remainder = count % offer.Quantity
@@ -49,8 +48,7 @@ class CheckoutSolution:
         else:
             return int(count * self.prices[sku].Price)
     
-    def checkBuyXGetYFreeOffer(self, skus, sku):
-        offer = self.prices[sku].BuyXGetYFreeOffer
+    def checkBuyXGetYFreeOffer(self, skus, sku, offer):
         if offer:
             item_to_buy = offer.ItemToBuy
             item_free = offer.ItemFree
@@ -61,6 +59,9 @@ class CheckoutSolution:
             num_free_items = num_eligible_offers * y
 
         return num_free_items 
+    
+    def calculateFreeItems(self, item_free, num_free_items, skus):
+        return int(max(0, skus.count(item_free) - num_free_items))
 
     # skus = unicode string
     def checkout(self, skus):
@@ -76,11 +77,14 @@ class CheckoutSolution:
                 if self.prices[sku].SpecialOffer:
                     for offer in self.prices[sku].SpecialOffer:
                         if isinstance(offer, buyXGetYFreeOffer):
-                            num_free_items = self.checkBuyXGetYFreeOffer(skus, sku)
-                            count -= num_free_items
+                            num_free_items = self.checkBuyXGetYFreeOffer(skus, sku, offer)
+                            countFree -= self.calculateFreeItems(offer.ItemFree, num_free_items, skus)
+                            total -= int(countFree * self.getPrice(offer.ItemFree))
+                            total += int(count * self.prices[sku].Price)
                         elif isinstance(offer, multiOffer):
-                            total += int(self.checkMultiOffer(sku, count))
+                            total += int(self.checkMultiOffer(sku, count, offer))
 
         return int(total)
+
 
 
