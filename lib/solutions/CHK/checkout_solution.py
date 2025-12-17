@@ -33,17 +33,15 @@ class CheckoutSolution:
             num_offers = count // offer.Quantity
             remainder = count % offer.Quantity
             total_price = (num_offers * offer.Price) + (remainder * self.prices[sku].Price)
-            return total_price
+            return int(total_price)
         else:
-            return count * self.prices[sku].Price
+            return int(count * self.prices[sku].Price)
 
     # skus = unicode string
     def checkout(self, skus):
         total = 0.0
         singularSkus = set(skus)
 
-        if len(skus) == 1 and skus[0] in self.prices:
-            return int(self.getPrice(skus[0]))
         
         for sku in singularSkus:
             if sku not in self.prices:
@@ -52,5 +50,5 @@ class CheckoutSolution:
                 count = skus.count(sku)
                 total += int(self.checkSpecialOffer(sku, count))
 
-        return total
+        return int(total)
 
