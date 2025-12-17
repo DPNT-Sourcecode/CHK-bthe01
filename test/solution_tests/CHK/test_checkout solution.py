@@ -23,4 +23,3 @@ class TestCheckoutSolution():
         assert CheckoutSolution().checkout("EEB") == int(80)
         assert CheckoutSolution().checkout("EEEEBB") == int(160)
         assert CheckoutSolution().checkout("EEEB") == int(120)
-
