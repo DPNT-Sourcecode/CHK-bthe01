@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional, Sequence, Union
+from typing import List, Optional, Sequence, Union
 from decimal import Decimal
 
 @dataclass
@@ -19,7 +19,7 @@ Offer = Union[multiOffer, buyXGetYFreeOffer]
 class Prices:
     Item : str
     Price : int
-    SpecialOffer : Sequence[Offer] = None
+    Offers : List[Offer] = None
 
 
 
@@ -29,11 +29,11 @@ class CheckoutSolution:
 
     def __init__(self):       
         self.prices = {
-            'A': Prices(Item='A', Price=int('50'), SpecialOffer=[multiOffer(Quantity=3, Price=int('130')), multiOffer(Quantity=5, Price=int('200'))]),
-            'B': Prices(Item='B', Price=int('30'), SpecialOffer=[multiOffer(Quantity=2, Price=int('45'))]),
+            'A': Prices(Item='A', Price=int('50'), Offers=[multiOffer(Quantity=3, Price=int('130')), multiOffer(Quantity=5, Price=int('200'))]),
+            'B': Prices(Item='B', Price=int('30'), Offers=[multiOffer(Quantity=2, Price=int('45'))]),
             'C': Prices(Item='C', Price=int('20')),
             'D': Prices(Item='D', Price=int('15')),
-            'E': Prices(Item='E', Price=int('40'), SpecialOffer=[buyXGetYFreeOffer(ItemToBuy='E', ItemFree='B', X=2, Y=1)]),
+            'E': Prices(Item='E', Price=int('40'), Offers=[buyXGetYFreeOffer(ItemToBuy='E', ItemFree='B', X=2, Y=1)]),
         }
 
     def getPrice(self, sku):
@@ -74,8 +74,8 @@ class CheckoutSolution:
                 return -1
             else:
                 count = skus.count(sku)
-                if self.prices[sku].SpecialOffer:
-                    for offer in self.prices[sku].SpecialOffer:
+                if self.prices[sku].Offers:
+                    for offer in self.prices[sku].Offers:
                         if isinstance(offer, buyXGetYFreeOffer):
                             countFree = 0
                             num_free_items = self.checkBuyXGetYFreeOffer(skus, sku, offer)
@@ -89,8 +89,3 @@ class CheckoutSolution:
                     total += int(count * self.prices[sku].Price)
 
         return int(total)
-
-
-
-
-
