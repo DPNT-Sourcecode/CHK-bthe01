@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Optional, Sequence, Union
 from decimal import Decimal
+from collections import Counter
 
 @dataclass
 class multiOffer:
@@ -36,56 +37,57 @@ class CheckoutSolution:
             'E': Prices(Item='E', Price=int('40'), Offers=[buyXGetYFreeOffer(ItemToBuy='E', ItemFree='B', X=2, Y=1)]),
         }
 
-    def getPrice(self, sku):
-        return self.prices[sku].Price if sku in self.prices else None
 
-    def checkMultiOffer(self, sku, count, offer):
-        if offer and count >= offer.Quantity:
-            num_offers = count // offer.Quantity
-            remainder = count % offer.Quantity
-            total_price = (num_offers * offer.Price) + (remainder * self.prices[sku].Price)
-            return int(total_price)
-        else:
-            return int(count * self.prices[sku].Price)
     
-    def checkBuyXGetYFreeOffer(self, skus, sku, offer):
-        if offer:
-            item_to_buy = offer.ItemToBuy
-            item_free = offer.ItemFree
-            x = offer.X
-            y = offer.Y
+    def applyCrossItemOffers(self, counts):
+        for item in self.prices.values():
+            if not item.Offers:
+                continue
+            for offer in item.Offers:
+                if isinstance(offer, buyXGetYFreeOffer):
+                    item_to_buy = offer.ItemToBuy
+                    item_free = offer.ItemFree
+                    x = offer.X
+                    y = offer.Y
 
-            num_eligible_offers = skus.count(item_to_buy) // x
-            num_free_items = num_eligible_offers * y
+                    num_eligible_offers = counts[item_to_buy] // x
+                    num_free_items = num_eligible_offers * y
 
-        return num_free_items 
-    
-    def calculateFreeItems(self, item_free, num_free_items, skus):
-        return int(max(0, skus.count(item_free) - num_free_items))
+                    counts[item_free] = max(0, counts[item_free] - num_free_items)
+
+    def getBestMultiOfferPrice(self, sku , quantity):
+        item = self.prices[sku]
+        unit_total = quantity * item.Price
+        multiOffers = [offer for offer in item.Offers if isinstance(offer, multiOffer)]
+        if not multiOffers:
+            return unit_total
+        temp_totals = [unit_total]
+        for offer in multiOffers:
+            numOffers = quantity // offer.Quantity
+            remainder = quantity % offer.Quantity
+            offerTotal = (numOffers * offer.Price) + (remainder * item.Price)
+            temp_totals.append(offerTotal)
+        return min(temp_totals)
+
 
     # skus = unicode string
     def checkout(self, skus):
         total = 0.0
         singularSkus = set(skus)
-
-        
         for sku in singularSkus:
             if sku not in self.prices:
                 return -1
-            else:
-                count = skus.count(sku)
-                if self.prices[sku].Offers:
-                    for offer in self.prices[sku].Offers:
-                        if isinstance(offer, buyXGetYFreeOffer):
-                            countFree = 0
-                            num_free_items = self.checkBuyXGetYFreeOffer(skus, sku, offer)
-                            countFree -= self.calculateFreeItems(offer.ItemFree, num_free_items, skus)
-                            total -= int(countFree * self.getPrice(offer.ItemFree))
-                            total += int(self.getPrice(sku) * count)
-                        elif isinstance(offer, multiOffer):
-                            total += int(self.checkMultiOffer(sku, count, offer))
-                    
-                else:
-                    total += int(count * self.prices[sku].Price)
+            
+        counts = Counter(skus)
+        
+        self.applyCrossItemOffers(counts)
+
+        total = 0
+
+        for sku, quantity in counts.items():
+            total += self.getBestMultiOfferPrice(sku, quantity)
+
+
 
         return int(total)
+
