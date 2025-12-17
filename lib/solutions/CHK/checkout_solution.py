@@ -22,6 +22,7 @@ class CheckoutSolution:
             'B': Prices(Item='B', Price=int('30'), SpecialOffer=Offer(Quantity=2, Price=int('45'))),
             'C': Prices(Item='C', Price=int('20')),
             'D': Prices(Item='D', Price=int('15')),
+            'E': Prices(Item='E', Price=int('40')),
         }
 
     def getPrice(self, sku):
@@ -51,4 +52,5 @@ class CheckoutSolution:
                 total += int(self.checkSpecialOffer(sku, count))
 
         return int(total)
+
 
