@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import List, Optional, Sequence, Union
 from decimal import Decimal
 from collections import Counter
+from loguru import logger
 
 @dataclass
 class multiOffer:
@@ -29,7 +30,7 @@ class Prices:
 class CheckoutSolution:
 
     def __init__(self):       
-        self.prices = {
+        self.priceCatalog = {
             'A': Prices(Item='A', Price=int('50'), Offers=[multiOffer(Quantity=3, Price=int('130')), multiOffer(Quantity=5, Price=int('200'))]),
             'B': Prices(Item='B', Price=int('30'), Offers=[multiOffer(Quantity=2, Price=int('45'))]),
             'C': Prices(Item='C', Price=int('20')),
@@ -40,7 +41,7 @@ class CheckoutSolution:
 
     
     def applyCrossItemOffers(self, counts):
-        for item in self.prices.values():
+        for item in self.priceCatalog.values():
             if not item.Offers:
                 continue
             for offer in item.Offers:
@@ -56,7 +57,7 @@ class CheckoutSolution:
                     counts[item_free] = max(0, counts[item_free] - num_free_items)
 
     def getBestMultiOfferPrice(self, sku , quantity):
-        item = self.prices[sku]
+        item = self.priceCatalog[sku]
         unit_total = quantity * item.Price
         if not item.Offers:
             return unit_total
@@ -66,9 +67,14 @@ class CheckoutSolution:
         temp_totals = [unit_total]
         for offer in multiOffers:
             numOffers = quantity // offer.Quantity
+            logger.debug(f"Calculating price for {quantity} of {sku} with {numOffers} offers of {offer.Quantity} at {offer.Price}")
             remainder = quantity % offer.Quantity
+            logger.debug(f"Remainder after applying offers: {remainder}")
             offerTotal = (numOffers * offer.Price) + (remainder * item.Price)
+            logger.debug(f"Total price using {numOffers} offers: {offerTotal}")
             temp_totals.append(offerTotal)
+            
+
         return min(temp_totals)
 
 
@@ -77,7 +83,7 @@ class CheckoutSolution:
         total = 0.0
         singularSkus = set(skus)
         for sku in singularSkus:
-            if sku not in self.prices:
+            if sku not in self.priceCatalog:
                 return -1
             
         counts = Counter(skus)
@@ -92,5 +98,6 @@ class CheckoutSolution:
 
 
         return int(total)
+
 
 
