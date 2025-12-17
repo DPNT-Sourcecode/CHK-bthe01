@@ -77,6 +77,7 @@ class CheckoutSolution:
                 if self.prices[sku].SpecialOffer:
                     for offer in self.prices[sku].SpecialOffer:
                         if isinstance(offer, buyXGetYFreeOffer):
+                            countFree = 0
                             num_free_items = self.checkBuyXGetYFreeOffer(skus, sku, offer)
                             countFree -= self.calculateFreeItems(offer.ItemFree, num_free_items, skus)
                             total -= int(countFree * self.getPrice(offer.ItemFree))
@@ -88,6 +89,7 @@ class CheckoutSolution:
                     total += int(count * self.prices[sku].Price)
 
         return int(total)
+
 
 
 
