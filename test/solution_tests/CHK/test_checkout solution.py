@@ -9,3 +9,9 @@ class TestCheckoutSolution():
 
     def test_checkout_invalid_sku(self):
         assert CheckoutSolution().checkout("AABX") == -1
+
+    def test_checkout_empty_string(self):
+        assert CheckoutSolution().checkout("") == int(0)
+    
+    def test_checkout_only_offers(self):
+        assert CheckoutSolution().checkout("AAAAABBBEE") == int(305)
