@@ -50,6 +50,7 @@ class CheckoutSolution:
                 return -1
             else:
                 count = skus.count(sku)
-                total += float(self.checkSpecialOffer(sku, count))
+                total += int(self.checkSpecialOffer(sku, count))
 
         return total
+
