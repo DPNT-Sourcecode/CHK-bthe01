@@ -29,11 +29,11 @@ class CheckoutSolution:
 
     def __init__(self):       
         self.prices = {
-            'A': Prices(Item='A', Price=int('50'), SpecialOffer=Offer(Quantity=3, Price=int('130'))),
-            'B': Prices(Item='B', Price=int('30'), SpecialOffer=Offer(Quantity=2, Price=int('45'))),
+            'A': Prices(Item='A', Price=int('50'), SpecialOffer=[multiOffer(Quantity=3, Price=int('130')), multiOffer(Quantity=5, Price=int('200'))]),
+            'B': Prices(Item='B', Price=int('30'), SpecialOffer=[multiOffer(Quantity=2, Price=int('45'))]),
             'C': Prices(Item='C', Price=int('20')),
             'D': Prices(Item='D', Price=int('15')),
-            'E': Prices(Item='E', Price=int('40')),
+            'E': Prices(Item='E', Price=int('40'), SpecialOffer=[buyXGetYFreeOffer(ItemToBuy='E', ItemFree='B', X=2, Y=1)]),
         }
 
     def getPrice(self, sku):
@@ -63,6 +63,3 @@ class CheckoutSolution:
                 total += int(self.checkSpecialOffer(sku, count))
 
         return int(total)
-
-
-
