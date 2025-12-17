@@ -24,10 +24,28 @@ class CheckoutSolution:
             'D': Prices(Item='D', Price=Decimal('15')),
         }
 
-        
+    def checkSpecialOffer(self, sku, count):
+        offer = self.prices[sku].SpecialOffer
+        if offer and count >= offer.Quantity:
+            num_offers = count // offer.Quantity
+            remainder = count % offer.Quantity
+            total_price = (num_offers * offer.Price) + (remainder * self.prices[sku].Price)
+            return total_price
+        else:
+            return count * self.prices[sku].Price
 
     # skus = unicode string
     def checkout(self, skus):
+        total = 0.0
+        singularSkus = set(skus)
+        for sku in singularSkus:
+            if sku not in self.prices:
+                return -1
+            else:
+                count = skus.count(sku)
+                total += float(self.checkSpecialOffer(sku, count))
+
+        
 
         raise NotImplementedError()
 
