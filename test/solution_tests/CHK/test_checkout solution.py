@@ -5,7 +5,7 @@ class TestCheckoutSolution():
         assert CheckoutSolution().checkout("A") == 50
 
     def test_checkout_valid_skus_with_offers(self):
-        assert CheckoutSolution().checkout("AAABBB") == 205.0
+        assert CheckoutSolution().checkout("AAABBB") == 205
 
     def test_checkout_invalid_sku(self):
         assert CheckoutSolution().checkout("AABX") == -1

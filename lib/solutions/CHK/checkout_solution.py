@@ -5,12 +5,12 @@ from decimal import Decimal
 @dataclass
 class Offer:
     Quantity : int
-    Price : Decimal
+    Price : int
 
 @dataclass
 class Prices:
     Item : str
-    Price : Decimal
+    Price : int
     SpecialOffer : Optional[Offer] = None
 
 
@@ -18,10 +18,10 @@ class CheckoutSolution:
 
     def __init__(self):       
         self.prices = {
-            'A': Prices(Item='A', Price=Decimal('50'), SpecialOffer=Offer(Quantity=3, Price=Decimal('130'))),
-            'B': Prices(Item='B', Price=Decimal('30'), SpecialOffer=Offer(Quantity=2, Price=Decimal('45'))),
-            'C': Prices(Item='C', Price=Decimal('20')),
-            'D': Prices(Item='D', Price=Decimal('15')),
+            'A': Prices(Item='A', Price=int('50'), SpecialOffer=Offer(Quantity=3, Price=int('130'))),
+            'B': Prices(Item='B', Price=int('30'), SpecialOffer=Offer(Quantity=2, Price=int('45'))),
+            'C': Prices(Item='C', Price=int('20')),
+            'D': Prices(Item='D', Price=int('15')),
         }
 
     def getPrice(self, sku):
