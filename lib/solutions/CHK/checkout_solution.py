@@ -58,6 +58,8 @@ class CheckoutSolution:
     def getBestMultiOfferPrice(self, sku , quantity):
         item = self.prices[sku]
         unit_total = quantity * item.Price
+        if not item.Offers:
+            return unit_total
         multiOffers = [offer for offer in item.Offers if isinstance(offer, multiOffer)]
         if not multiOffers:
             return unit_total
@@ -90,4 +92,5 @@ class CheckoutSolution:
 
 
         return int(total)
+
 

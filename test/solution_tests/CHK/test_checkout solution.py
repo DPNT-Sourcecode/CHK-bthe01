@@ -14,4 +14,9 @@ class TestCheckoutSolution():
         assert CheckoutSolution().checkout("") == int(0)
     
     def test_checkout_only_offers(self):
-        assert CheckoutSolution().checkout("AAAAABBBEE") == int(305)
+        assert CheckoutSolution().checkout("AAAAABBEE") == int(310)
+
+    def test_checkout_cross_item_offer(self):
+        assert CheckoutSolution().checkout("EEB") == int(80)
+        assert CheckoutSolution().checkout("EEEEBB") == int(160)
+        assert CheckoutSolution().checkout("EEEB") == int(120)
