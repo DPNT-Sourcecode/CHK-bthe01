@@ -73,7 +73,14 @@ class CheckoutSolution:
                 return -1
             else:
                 count = skus.count(sku)
-                total += int(self.checkMultiOffer(sku, count))
+                if self.prices[sku].SpecialOffer:
+                    for offer in self.prices[sku].SpecialOffer:
+                        if isinstance(offer, buyXGetYFreeOffer):
+                            num_free_items = self.checkBuyXGetYFreeOffer(skus, sku)
+                            count -= num_free_items
+                        elif isinstance(offer, multiOffer):
+                            total += int(self.checkMultiOffer(sku, count))
 
         return int(total)
+
 
