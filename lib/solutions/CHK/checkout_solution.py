@@ -64,18 +64,17 @@ class CheckoutSolution:
         multiOffers = [offer for offer in item.Offers if isinstance(offer, multiOffer)]
         if not multiOffers:
             return unit_total
-        temp_totals = [unit_total]
-        for offer in multiOffers:
-            numOffers = quantity // offer.Quantity
-            logger.debug(f"Calculating price for {quantity} of {sku} with {numOffers} offers of {offer.Quantity} at {offer.Price}")
-            remainder = quantity % offer.Quantity
-            logger.debug(f"Remainder after applying offers: {remainder}")
-            offerTotal = (numOffers * offer.Price) + (remainder * item.Price)
-            logger.debug(f"Total price using {numOffers} offers: {offerTotal}")
-            temp_totals.append(offerTotal)
-            
 
-        return min(temp_totals)
+        # using dynamic programming to find the best combination of offers
+        dp = [float('inf')] * (quantity + 1)
+        dp[0] = 0
+        for x in range(1, quantity +1):
+            for offer in multiOffers:
+                if x >= offer.Quantity:
+                    dp[x] = min(dp[x], dp[x - offer.Quantity] + offer.Price)
+            dp[x] = min(dp[x], dp[x -1] + item.Price)
+            
+        return dp[quantity]
 
 
     # skus = unicode string
@@ -98,3 +97,4 @@ class CheckoutSolution:
 
 
         return int(total)
+
