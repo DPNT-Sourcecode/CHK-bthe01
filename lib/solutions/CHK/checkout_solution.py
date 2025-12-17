@@ -45,7 +45,5 @@ class CheckoutSolution:
                 count = skus.count(sku)
                 total += float(self.checkSpecialOffer(sku, count))
 
-        
-
-        raise NotImplementedError()
+        return total
 
