@@ -1,17 +1,28 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Sequence, Union
 from decimal import Decimal
 
 @dataclass
-class Offer:
+class multiOffer:
     Quantity : int
     Price : int
+@dataclass
+class buyXGetYFreeOffer:
+    ItemToBuy : str
+    ItemFree : str
+    X : int
+    Y : int
+
+Offer = Union[multiOffer, buyXGetYFreeOffer]
 
 @dataclass
 class Prices:
     Item : str
     Price : int
-    SpecialOffer : Optional[Offer] = None
+    SpecialOffer : Sequence[Offer] = None
+
+
+
 
 
 class CheckoutSolution:
@@ -52,5 +63,6 @@ class CheckoutSolution:
                 total += int(self.checkSpecialOffer(sku, count))
 
         return int(total)
+
 
 
