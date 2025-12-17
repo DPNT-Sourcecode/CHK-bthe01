@@ -24,6 +24,9 @@ class CheckoutSolution:
             'D': Prices(Item='D', Price=Decimal('15')),
         }
 
+    def getprice(self, sku):
+        return self.prices[sku].Price if sku in self.prices else None
+
     def checkSpecialOffer(self, sku, count):
         offer = self.prices[sku].SpecialOffer
         if offer and count >= offer.Quantity:
@@ -38,6 +41,8 @@ class CheckoutSolution:
     def checkout(self, skus):
         total = 0.0
         singularSkus = set(skus)
+        if len(singularSkus) == 1 and skus[0] in self.prices:
+            return integer
         for sku in singularSkus:
             if sku not in self.prices:
                 return -1
@@ -46,4 +51,5 @@ class CheckoutSolution:
                 total += float(self.checkSpecialOffer(sku, count))
 
         return total
+
 
