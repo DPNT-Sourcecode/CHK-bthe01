@@ -1,21 +1,25 @@
 from dataclasses import dataclass
-from typing import List, Optional, Sequence, Union
-from decimal import Decimal
+from typing import List, Union
 from collections import Counter
 from loguru import logger
 
-@dataclass
+@dataclass(frozen=True)
 class multiOffer:
     Quantity : int
     Price : int
-@dataclass
+@dataclass(frozen=True)
 class buyXGetYFreeOffer:
     ItemToBuy : str
     ItemFree : str
     X : int
     Y : int
 
+@dataclass(frozen=True)
+class groupOffer:
+    items : 
+
 Offer = Union[multiOffer, buyXGetYFreeOffer]
+
 
 @dataclass
 class Prices:
@@ -122,3 +126,4 @@ class CheckoutSolution:
 
 
         return int(total)
+
