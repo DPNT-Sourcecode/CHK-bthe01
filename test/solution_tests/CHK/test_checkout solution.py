@@ -44,7 +44,7 @@ class TestCheckoutSolution():
         assert CheckoutSolution().checkout("YYY") == int(45)
         assert CheckoutSolution().checkout("ZZZ") == int(45)
         assert CheckoutSolution().checkout("STXSTY") == int(90)
-        assert CheckoutSolution().checkout("STXYSTZ") == int(105)
+        assert CheckoutSolution().checkout("STXYSTZ") == int(107)
         assert CheckoutSolution().checkout("ZZZYYYXXXTTTSSS") == int(225)
 
 
@@ -54,3 +54,4 @@ class TestCheckoutSolution():
         assert CheckoutSolution().checkout("EEB") == int(80)
         assert CheckoutSolution().checkout("EEEEBB") == int(160)
         assert CheckoutSolution().checkout("EEEB") == int(120)
+
