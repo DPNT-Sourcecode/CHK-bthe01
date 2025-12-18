@@ -159,8 +159,3 @@ class CheckoutSolution:
 
 
         return int(total)
-
-
-
-
-

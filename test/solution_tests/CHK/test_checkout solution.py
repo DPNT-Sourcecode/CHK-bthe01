@@ -33,9 +33,19 @@ class TestCheckoutSolution():
 
     def test_new_prodducts(self):
         assert CheckoutSolution().checkout("STXYZ") == int(200)
-        assert CheckoutSolution().checkout("STXYSTX") == int(290)
+        assert CheckoutSolution().checkout("STXYSTX") == int(107)
         assert CheckoutSolution().checkout("PPPPP") == int(200)
         assert CheckoutSolution().checkout("QQQ") == int(80)
+
+    def tes_packages(self):
+        assert CheckoutSolution().checkout("SSS") == int(45)
+        assert CheckoutSolution().checkout("TTT") == int(45)
+        assert CheckoutSolution().checkout("XXX") == int(45)
+        assert CheckoutSolution().checkout("YYY") == int(45)
+        assert CheckoutSolution().checkout("ZZZ") == int(45)
+        assert CheckoutSolution().checkout("STXSTY") == int(90)
+        assert CheckoutSolution().checkout("STXYSTZ") == int(105)
+        assert CheckoutSolution().checkout("ZZZYYYXXXTTTSSS") == int(225)
 
 
     
