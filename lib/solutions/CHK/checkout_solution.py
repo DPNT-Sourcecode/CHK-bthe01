@@ -69,6 +69,31 @@ class CheckoutSolution:
             groupOffer(items=['S','T','X','Y','Z'], QuantityforEligibility=3, Price=int('45'))
         ]
 
+    def applyGroupOffers(self, counts):
+        groupTotal = 0
+        for offer in self.groupOffers:
+            eligibleItems = []
+            for item in offer.items:
+                eligibleItems += [item] * counts[item]
+            
+            checkPackages = len(eligibleItems) // offer.QuantityforEligibility
+            if checkPackages == 0:
+                continue
+            # get the most expensive items first
+            eligibleItems.sort(key=lambda x: self.priceCatalog[x].Price, reverse=True)
+
+            itemsUsed = checkPackages * offer.QuantityforEligibility
+            itemsUsedForPackages = eligibleItems[:itemsUsed]
+
+            for sku in itemsUsedForPackages:
+                counts[sku] -= 1
+
+            groupTotal += checkPackages * offer.Price
+        return groupTotal
+
+
+
+
 
     
     def applyCrossItemOffers(self, counts):
@@ -132,5 +157,6 @@ class CheckoutSolution:
 
 
         return int(total)
+
 
 
