@@ -8,7 +8,7 @@ class TestCheckoutSolution():
         assert CheckoutSolution().checkout("AAABBB") == int(205)
 
     def test_checkout_invalid_sku(self):
-        assert CheckoutSolution().checkout("AABX") == -1
+        assert CheckoutSolution().checkout("AABX") == 220
 
     def test_checkout_empty_string(self):
         assert CheckoutSolution().checkout("") == int(0)
@@ -28,15 +28,15 @@ class TestCheckoutSolution():
         assert CheckoutSolution().checkout("VV") == int(90)
         assert CheckoutSolution().checkout("VVV") == int(130)
         assert CheckoutSolution().checkout("VVVV") == int(180)
-        assert CheckoutSolution().checkout("VVVVV") == int(230)
+        assert CheckoutSolution().checkout("VVVVV") == int(220)
         assert CheckoutSolution().checkout("VVVVVV") == int(260)
 
     def test_new_prodducts(self):
         assert CheckoutSolution().checkout("STXYZ") == int(200)
-        assert CheckoutSolution().checkout("STXYSTX") == int(340)
+        assert CheckoutSolution().checkout("STXYSTX") == int(290)
         assert CheckoutSolution().checkout("PPPPP") == int(200)
         assert CheckoutSolution().checkout("QQQ") == int(80)
-        
+
 
     
 
@@ -44,5 +44,3 @@ class TestCheckoutSolution():
         assert CheckoutSolution().checkout("EEB") == int(80)
         assert CheckoutSolution().checkout("EEEEBB") == int(160)
         assert CheckoutSolution().checkout("EEEB") == int(120)
-
-
