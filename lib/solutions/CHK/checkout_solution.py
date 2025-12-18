@@ -16,12 +16,14 @@ class buyXGetYFreeOffer:
 
 @dataclass(frozen=True)
 class groupOffer:
-    items : 
+    items : List[str]
+    QuantityforEligibility : int
+    Price : int
 
 Offer = Union[multiOffer, buyXGetYFreeOffer]
 
 
-@dataclass
+@dataclass(frozen=True)
 class Prices:
     Item : str
     Price : int
@@ -62,6 +64,10 @@ class CheckoutSolution:
             'Y': Prices(Item='Y', Price=int('10')),
             'Z': Prices(Item='Z', Price=int('50')),
         }
+
+        self.groupOffers = [
+            groupOffer(items=['S','T','X','Y','Z'], QuantityforEligibility=3, Price=int('45'))
+        ]
 
 
     
@@ -126,4 +132,5 @@ class CheckoutSolution:
 
 
         return int(total)
+
 
