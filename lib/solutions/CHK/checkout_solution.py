@@ -81,13 +81,13 @@ class CheckoutSolution:
                 continue
             # get the most expensive items first
             eligibleItems.sort(key=lambda x: self.priceCatalog[x].Price, reverse=True)
-
+            # remove items used in group offer from counts
             itemsUsed = checkPackages * offer.QuantityforEligibility
             itemsUsedForPackages = eligibleItems[:itemsUsed]
-
             for sku in itemsUsedForPackages:
                 counts[sku] -= 1
-
+            
+            # add group offer price to total
             groupTotal += checkPackages * offer.Price
         return groupTotal
 
@@ -146,17 +146,20 @@ class CheckoutSolution:
                 return -1
             
         counts = Counter(skus)
-        
+
+        # Apply cross item offers first to adjust counts
         self.applyCrossItemOffers(counts)
-
+        # apply group offers next
         total = 0
-
+        total += self.applyGroupOffers(counts)
+        # finally apply multi offers and unit prices
         for sku, quantity in counts.items():
             total += self.getBestMultiOfferPrice(sku, quantity)
 
 
 
         return int(total)
+
 
 
 
