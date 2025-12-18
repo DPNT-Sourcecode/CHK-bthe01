@@ -36,6 +36,7 @@ class CheckoutSolution:
             'C': Prices(Item='C', Price=int('20')),
             'D': Prices(Item='D', Price=int('15')),
             'E': Prices(Item='E', Price=int('40'), Offers=[buyXGetYFreeOffer(ItemToBuy='E', ItemFree='B', X=2, Y=1)]),
+            'F': Prices(Item='F', Price=int('10'), Offers=[buyXGetYFreeOffer(ItemToBuy='F', ItemFree='F', X=2, Y=1)]),
         }
 
 
@@ -73,7 +74,7 @@ class CheckoutSolution:
                 if x >= offer.Quantity:
                     dp[x] = min(dp[x], dp[x - offer.Quantity] + offer.Price)
             dp[x] = min(dp[x], dp[x -1] + item.Price)
-            
+
         return dp[quantity]
 
 
@@ -97,3 +98,4 @@ class CheckoutSolution:
 
 
         return int(total)
+
