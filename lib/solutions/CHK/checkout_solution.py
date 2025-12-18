@@ -37,6 +37,26 @@ class CheckoutSolution:
             'D': Prices(Item='D', Price=int('15')),
             'E': Prices(Item='E', Price=int('40'), Offers=[buyXGetYFreeOffer(ItemToBuy='E', ItemFree='B', X=2, Y=1)]),
             'F': Prices(Item='F', Price=int('10'), Offers=[buyXGetYFreeOffer(ItemToBuy='F', ItemFree='F', X=2, Y=1)]),
+            'G': Prices(Item='G', Price=int('20')),
+            'H': Prices(Item='H', Price=int('10'), Offers=[multiOffer(Quantity=5, Price=int('45')), multiOffer(Quantity=10, Price=int('80'))]),
+            'I': Prices(Item='I', Price=int('35')),
+            'J': Prices(Item='J', Price=int('60')),
+            'K': Prices(Item='K', Price=int('80'), Offers=[multiOffer(Quantity=2, Price=int('150'))]),
+            'L': Prices(Item='L', Price=int('90')),
+            'M': Prices(Item='M', Price=int('15')),
+            'N': Prices(Item='N', Price=int('40'), Offers=[buyXGetYFreeOffer(ItemToBuy='N', ItemFree='M', X=3, Y=1)]),
+            'O': Prices(Item='O', Price=int('10')),
+            'P': Prices(Item='P', Price=int('50'), Offers=[multiOffer(Quantity=5, Price=int('200'))]),
+            'Q': Prices(Item='Q', Price=int('30'), Offers=[multiOffer(Quantity=3, Price=int('80'))]),
+            'R': Prices(Item='R', Price=int('50'), Offers=[buyXGetYFreeOffer(ItemToBuy='R', ItemFree='Q', X=3, Y=1)]),
+            'S': Prices(Item='S', Price=int('30')),
+            'T': Prices(Item='T', Price=int('20')),
+            'U': Prices(Item='U', Price=int('40'), Offers=[buyXGetYFreeOffer(ItemToBuy='U', ItemFree='U', X=3, Y=1)]),
+            'V': Prices(Item='V', Price=int('50'), Offers=[multiOffer(Quantity=2, Price=int('90')), multiOffer(Quantity=3, Price=int('130'))]),
+            'W': Prices(Item='W', Price=int('20')),
+            'X': Prices(Item='X', Price=int('90')),
+            'Y': Prices(Item='Y', Price=int('10')),
+            'Z': Prices(Item='Z', Price=int('50')),
         }
 
 
@@ -102,5 +122,6 @@ class CheckoutSolution:
 
 
         return int(total)
+
 
 
