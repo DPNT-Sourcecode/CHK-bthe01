@@ -17,9 +17,17 @@ class TestCheckoutSolution():
         assert CheckoutSolution().checkout("AAAAABBEE") == int(310)
 
     def test_allAs(self):
-        assert CheckoutSolution().checkout("AAAAAEEBAAABB") == int(455)  
+        assert CheckoutSolution().checkout("AAAAAEEBAAABBFFF") == int(475)  
+
+    def test_three_fs(self):
+        assert CheckoutSolution().checkout("FFF") == int(20)
+        assert CheckoutSolution().checkout("FFFF") == int(30)
+        assert CheckoutSolution().checkout("FFFFFF") == int(40)
+
+    
 
     def test_checkout_cross_item_offer(self):
         assert CheckoutSolution().checkout("EEB") == int(80)
         assert CheckoutSolution().checkout("EEEEBB") == int(160)
         assert CheckoutSolution().checkout("EEEB") == int(120)
+

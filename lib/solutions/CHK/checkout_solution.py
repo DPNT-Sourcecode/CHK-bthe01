@@ -52,8 +52,12 @@ class CheckoutSolution:
                     x = offer.X
                     y = offer.Y
 
-                    num_eligible_offers = counts[item_to_buy] // x
-                    num_free_items = num_eligible_offers * y
+                    if item_to_buy == item_free:
+                        num_eligible_offers = counts[item_to_buy] // (x+y)
+                        num_free_items = num_eligible_offers * y
+                    else:
+                        num_eligible_offers = counts[item_to_buy] // x
+                        num_free_items = num_eligible_offers * y
 
                     counts[item_free] = max(0, counts[item_free] - num_free_items)
 
@@ -98,4 +102,5 @@ class CheckoutSolution:
 
 
         return int(total)
+
 
